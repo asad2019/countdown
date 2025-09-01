@@ -15,7 +15,14 @@ function App() {
     seconds: 0,
   });
 
-  const targetDate = new Date('2025-09-25T16:15:00+05:00'); // PKT timezone
+  const [progress, setProgress] = useState({
+    elapsed: 0,
+    remaining: 0,
+    percentage: 0,
+  });
+
+  const startDate = new Date('2025-07-12T16:15:00+05:00'); // July 12, 2025 4:15 PM PKT
+  const targetDate = new Date('2025-09-25T16:15:00+05:00'); // September 25, 2025 4:15 PM PKT
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -46,6 +53,18 @@ function App() {
           minutes,
           seconds,
         });
+
+        // Calculate progress
+        const totalDuration = targetDate.getTime() - startDate.getTime();
+        const elapsed = now.getTime() - startDate.getTime();
+        const remaining = targetDate.getTime() - now.getTime();
+        const percentage = ((elapsed / totalDuration) * 100).toFixed(4);
+
+        setProgress({
+          elapsed: Math.floor(elapsed / 1000),
+          remaining: Math.floor(remaining / 1000),
+          percentage: parseFloat(percentage),
+        });
       } else {
         setTimeLeft({
           decimalMonths: 0,
@@ -57,6 +76,12 @@ function App() {
           hours: 0,
           minutes: 0,
           seconds: 0,
+        });
+
+        setProgress({
+          elapsed: 0,
+          remaining: 0,
+          percentage: 100.0000,
         });
       }
     };
@@ -114,9 +139,80 @@ function App() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-lg text-slate-500"
             >
-              September 25, 2025 • 4:15 PM PKT
+              July 12, 2025 • 4:15 PM PKT → September 25, 2025 • 4:15 PM PKT
             </motion.p>
           </div>
+
+          {/* Progress Bars */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="space-y-6"
+          >
+            {/* Overall Progress */}
+            <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-semibold text-slate-900">Overall Progress</h3>
+                <span className="text-2xl font-mono font-bold text-slate-800">
+                  {progress.percentage}%
+                </span>
+              </div>
+              <div className="w-full bg-slate-200 rounded-full h-4 overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progress.percentage}%` }}
+                  transition={{ duration: 1, delay: 0.8 }}
+                  className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
+                />
+              </div>
+            </div>
+
+            {/* Time Progress Details */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Elapsed Time */}
+              <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-semibold text-slate-900">Time Elapsed</h3>
+                  <span className="text-sm text-slate-500">
+                    {Math.floor(progress.elapsed / 86400)} days
+                  </span>
+                </div>
+                <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress.percentage}%` }}
+                    transition={{ duration: 1, delay: 1.0 }}
+                    className="h-full bg-green-500 rounded-full"
+                  />
+                </div>
+                <p className="text-sm text-slate-600 mt-2">
+                  {progress.elapsed.toLocaleString()} seconds passed
+                </p>
+              </div>
+
+              {/* Remaining Time */}
+              <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-semibold text-slate-900">Time Remaining</h3>
+                  <span className="text-sm text-slate-500">
+                    {Math.floor(progress.remaining / 86400)} days
+                  </span>
+                </div>
+                <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${100 - progress.percentage}%` }}
+                    transition={{ duration: 1, delay: 1.2 }}
+                    className="h-full bg-orange-500 rounded-full"
+                  />
+                </div>
+                <p className="text-sm text-slate-600 mt-2">
+                  {progress.remaining.toLocaleString()} seconds left
+                </p>
+              </div>
+            </div>
+          </motion.div>
 
           {/* Points Stats */}
           <motion.div
