@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 const Calendar = ({ startDate, targetDate }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [dayProgress, setDayProgress] = useState(0);
-  const [currentMonth, setCurrentMonth] = useState(startDate.getMonth());
-  const [currentYear, setCurrentYear] = useState(startDate.getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     const updateTime = () => {
@@ -183,8 +183,8 @@ const Calendar = ({ startDate, targetDate }) => {
               className={`
                 relative aspect-square flex flex-col items-center justify-center rounded-md border transition-all duration-200 hover:scale-105 cursor-pointer
                 ${!day.isCurrentMonth ? 'opacity-30 text-slate-400' : ''}
-                ${day.isStartDate ? 'bg-green-500 border-green-600 text-white shadow-lg' : ''}
-                ${day.isTargetDate ? 'bg-red-500 border-red-600 text-white shadow-lg' : ''}
+                ${day.isStartDate ? 'bg-red-500 border-red-600 text-white shadow-lg' : ''}
+                ${day.isTargetDate ? 'bg-green-500 border-green-600 text-white shadow-lg' : ''}
                 ${day.isToday ? 'bg-blue-500 border-blue-600 text-white shadow-lg' : ''}
                 ${day.isPast && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-slate-200 border-slate-300 text-slate-600' : ''}
                 ${day.isFuture && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-white border-slate-200 text-slate-400 hover:bg-slate-50' : ''}
@@ -238,11 +238,11 @@ const Calendar = ({ startDate, targetDate }) => {
       {/* Compact Legend */}
       <div className="mt-4 flex flex-wrap gap-3 text-xs">
         <div className="flex items-center gap-1">
-          <div className="w-3 h-3 bg-green-500 rounded"></div>
+          <div className="w-3 h-3 bg-red-500 rounded"></div>
           <span>Start</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-3 h-3 bg-red-500 rounded"></div>
+          <div className="w-3 h-3 bg-green-500 rounded"></div>
           <span>Target</span>
         </div>
         <div className="flex items-center gap-1">
