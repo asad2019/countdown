@@ -76,11 +76,6 @@ const Calendar = ({ startDate, targetDate }) => {
   };
 
   const calendarDays = generateCalendarDays();
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
   const formatTime = (date) => {
     return date.toLocaleTimeString('en-US', {
       hour: '2-digit',
@@ -89,145 +84,123 @@ const Calendar = ({ startDate, targetDate }) => {
     });
   };
 
-  const formatDate = (date) => {
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
   return (
-    <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Calendar Progress</h2>
-        <div className="flex flex-col sm:flex-row gap-4 text-sm text-slate-600">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span>Start: {formatDate(startDate)} at {formatTime(startDate)}</span>
+    <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-4">
+      {/* Compact Header */}
+      <div className="mb-4">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-lg font-bold text-slate-900">Calendar Progress</h2>
+          <div className="text-sm text-slate-500">
+            {formatTime(currentTime)} • {dayProgress.toFixed(1)}%
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            <span>Target: {formatDate(targetDate)} at {formatTime(targetDate)}</span>
+        </div>
+        <div className="flex gap-4 text-xs text-slate-600">
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span>Start: Jul 12</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+            <span>Target: Sep 25</span>
           </div>
         </div>
       </div>
 
-      {/* Current Time Display */}
-      <div className="mb-6 p-4 bg-slate-50 rounded-lg">
-        <div className="flex justify-between items-center">
-          <div>
-            <h3 className="text-lg font-semibold text-slate-900">Current Time</h3>
-            <p className="text-slate-600">{formatDate(currentTime)}</p>
-          </div>
-          <div className="text-right">
-            <div className="text-2xl font-mono font-bold text-slate-900">
-              {formatTime(currentTime)}
-            </div>
-            <div className="text-sm text-slate-500">
-              Day Progress: {dayProgress.toFixed(1)}%
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Calendar Grid */}
-      <div className="grid grid-cols-7 gap-1 mb-4">
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-          <div key={day} className="text-center text-sm font-semibold text-slate-500 py-2">
+      {/* Compact Calendar Grid */}
+      <div className="grid grid-cols-7 gap-1 mb-2">
+        {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
+          <div key={day} className="text-center text-xs font-semibold text-slate-500 py-1">
             {day}
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 gap-1">
-        {calendarDays.map((day, index) => {
-          const isCurrentMonth = day.date.getMonth() === startDate.getMonth() || 
-                                day.date.getMonth() === targetDate.getMonth();
-          
-          return (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.01 }}
-              className={`
-                relative aspect-square flex flex-col items-center justify-center rounded-lg border-2 transition-all duration-300
-                ${!isCurrentMonth ? 'opacity-30' : ''}
-                ${day.isStartDate ? 'bg-green-100 border-green-500 text-green-900' : ''}
-                ${day.isTargetDate ? 'bg-red-100 border-red-500 text-red-900' : ''}
-                ${day.isToday ? 'bg-blue-100 border-blue-500 text-blue-900' : ''}
-                ${day.isPast && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-slate-100 border-slate-300 text-slate-600' : ''}
-                ${day.isFuture && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-white border-slate-200 text-slate-400' : ''}
-                ${day.isInRange && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-yellow-50 border-yellow-200 text-yellow-800' : ''}
-              `}
-            >
-              <span className="text-sm font-semibold">
-                {day.date.getDate()}
-              </span>
-              
-              {/* Progress Bar for Today */}
-              {day.isToday && (
-                <div className="absolute bottom-1 left-1 right-1">
-                  <div className="w-full bg-slate-200 rounded-full h-1 overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${dayProgress}%` }}
-                      transition={{ duration: 0.5 }}
-                      className="h-full bg-blue-500 rounded-full"
-                    />
+      {/* Scrollable Calendar Container */}
+      <div className="max-h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100">
+        <div className="grid grid-cols-7 gap-1">
+          {calendarDays.map((day, index) => {
+            const isCurrentMonth = day.date.getMonth() === startDate.getMonth() || 
+                                  day.date.getMonth() === targetDate.getMonth();
+            
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2, delay: index * 0.005 }}
+                className={`
+                  relative h-8 flex items-center justify-center rounded-md border transition-all duration-200 text-xs font-medium
+                  ${!isCurrentMonth ? 'opacity-30' : ''}
+                  ${day.isStartDate ? 'bg-green-100 border-green-400 text-green-800 shadow-sm' : ''}
+                  ${day.isTargetDate ? 'bg-red-100 border-red-400 text-red-800 shadow-sm' : ''}
+                  ${day.isToday ? 'bg-blue-100 border-blue-400 text-blue-800 shadow-sm' : ''}
+                  ${day.isPast && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-slate-100 border-slate-300 text-slate-600' : ''}
+                  ${day.isFuture && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-white border-slate-200 text-slate-400' : ''}
+                  ${day.isInRange && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-yellow-50 border-yellow-300 text-yellow-700' : ''}
+                `}
+              >
+                <span className="text-xs">
+                  {day.date.getDate()}
+                </span>
+                
+                {/* Progress Bar for Today */}
+                {day.isToday && (
+                  <div className="absolute bottom-0 left-0 right-0">
+                    <div className="w-full bg-slate-200 rounded-b-md h-1 overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${dayProgress}%` }}
+                        transition={{ duration: 0.5 }}
+                        className="h-full bg-blue-500 rounded-b-md"
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
-              
-              {/* Progress Bar for Past Days */}
-              {day.isPast && !day.isStartDate && !day.isTargetDate && !day.isToday && (
-                <div className="absolute bottom-1 left-1 right-1">
-                  <div className="w-full bg-slate-300 rounded-full h-1">
-                    <div className="h-full bg-slate-500 rounded-full w-full" />
+                )}
+                
+                {/* Progress Bar for Past Days */}
+                {day.isPast && !day.isStartDate && !day.isTargetDate && !day.isToday && (
+                  <div className="absolute bottom-0 left-0 right-0">
+                    <div className="w-full bg-slate-300 rounded-b-md h-1">
+                      <div className="h-full bg-slate-500 rounded-b-md w-full" />
+                    </div>
                   </div>
-                </div>
-              )}
-              
-              {/* Special Indicators */}
-              {day.isStartDate && (
-                <div className="absolute top-1 right-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                </div>
-              )}
-              
-              {day.isTargetDate && (
-                <div className="absolute top-1 right-1">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                </div>
-              )}
-            </motion.div>
-          );
-        })}
+                )}
+                
+                {/* Special Indicators */}
+                {day.isStartDate && (
+                  <div className="absolute top-0 right-0">
+                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                  </div>
+                )}
+                
+                {day.isTargetDate && (
+                  <div className="absolute top-0 right-0">
+                    <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Legend */}
-      <div className="mt-6 flex flex-wrap gap-4 text-sm">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-green-100 border-2 border-green-500 rounded"></div>
-          <span>Start Date</span>
+      {/* Compact Legend */}
+      <div className="mt-3 flex flex-wrap gap-3 text-xs">
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 bg-green-100 border border-green-400 rounded"></div>
+          <span>Start</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-red-100 border-2 border-red-500 rounded"></div>
-          <span>Target Date</span>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 bg-red-100 border border-red-400 rounded"></div>
+          <span>Target</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-blue-100 border-2 border-blue-500 rounded"></div>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 bg-blue-100 border border-blue-400 rounded"></div>
           <span>Today</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-yellow-50 border-2 border-yellow-200 rounded"></div>
-          <span>In Range</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-slate-100 border-2 border-slate-300 rounded"></div>
-          <span>Past</span>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 bg-yellow-50 border border-yellow-300 rounded"></div>
+          <span>Range</span>
         </div>
       </div>
     </div>

@@ -269,15 +269,6 @@ function App() {
             ))}
           </motion.div>
 
-          {/* Calendar Component */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.8 }}
-          >
-            <Calendar startDate={startDate} targetDate={targetDate} />
-          </motion.div>
-
           {/* Progress Style Countdown */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -313,6 +304,15 @@ function App() {
                 </React.Fragment>
               ))}
             </div>
+          </motion.div>
+
+          {/* Calendar Component - Bottom */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 2.0 }}
+          >
+            <Calendar startDate={startDate} targetDate={targetDate} />
           </motion.div>
 
         </motion.div>
