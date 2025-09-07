@@ -116,32 +116,40 @@ function App() {
         <meta name="description" content="A simple and professional countdown timer to September 25, 2025 at 4:15 PM PST." />
       </Helmet>
       
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-slate-50 text-slate-800">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 text-slate-800">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="relative z-10 text-center space-y-10 max-w-4xl mx-auto w-full"
         >
-          {/* Header */}
-          <div className="space-y-3">
+          {/* Professional Header */}
+          <div className="space-y-4">
              <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl md:text-5xl font-bold text-slate-900"
+              className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-slate-900 via-blue-800 to-slate-900 bg-clip-text text-transparent"
             >
               Countdown to Launch
             </motion.h1>
             
-            <motion.p
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg text-slate-500"
+              className="flex flex-col sm:flex-row items-center justify-center gap-2 text-lg"
             >
-              July 12, 2025 • 4:15 PM PKT → September 25, 2025 • 4:15 PM PKT
-            </motion.p>
+              <div className="flex items-center gap-2 px-4 py-2 bg-red-100 border border-red-200 rounded-full">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <span className="text-red-800 font-semibold">July 12, 2025 • 4:15 PM PKT</span>
+              </div>
+              <div className="text-slate-500 font-medium">→</div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-green-100 border border-green-200 rounded-full">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span className="text-green-800 font-semibold">September 25, 2025 • 4:15 PM PKT</span>
+              </div>
+            </motion.div>
           </div>
 
           {/* Progress Bars */}
@@ -152,75 +160,75 @@ function App() {
             className="space-y-6"
           >
             {/* Overall Progress */}
-            <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="text-lg font-semibold text-slate-900">Overall Progress</h3>
-                <span className="text-2xl font-mono font-bold text-slate-800">
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl backdrop-blur-sm">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold text-slate-900">Overall Progress</h3>
+                <span className="text-3xl font-mono font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   {progress.percentage}%
                 </span>
               </div>
-              <div className="w-full bg-slate-200 rounded-full h-4 overflow-hidden">
+              <div className="w-full bg-slate-200 rounded-full h-6 overflow-hidden shadow-inner">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${progress.percentage}%` }}
-                  transition={{ duration: 1, delay: 0.8 }}
-                  className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
+                  transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
+                  className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 rounded-full shadow-lg"
                 />
               </div>
             </div>
 
             {/* Time Progress Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Elapsed Time */}
-              <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-lg font-semibold text-slate-900">Time Elapsed</h3>
-                  <span className="text-sm text-slate-500">
+              <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl backdrop-blur-sm">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-xl font-bold text-slate-900">Time Elapsed</h3>
+                  <span className="text-lg font-semibold text-green-600 bg-green-100 px-3 py-1 rounded-full">
                     {Math.floor(progress.elapsed / 86400)} days
                   </span>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                <div className="w-full bg-slate-200 rounded-full h-5 overflow-hidden shadow-inner">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${progress.percentage}%` }}
-                    transition={{ duration: 1, delay: 1.0 }}
-                    className="h-full bg-green-500 rounded-full"
+                    transition={{ duration: 1.5, delay: 1.0, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full shadow-lg"
                   />
                 </div>
-                <p className="text-sm text-slate-600 mt-2">
+                <p className="text-sm text-slate-600 mt-3 font-medium">
                   {progress.elapsed.toLocaleString()} seconds passed
                 </p>
               </div>
 
               {/* Remaining Time */}
-              <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-lg font-semibold text-slate-900">Time Remaining</h3>
-                  <span className="text-sm text-slate-500">
+              <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl backdrop-blur-sm">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-xl font-bold text-slate-900">Time Remaining</h3>
+                  <span className="text-lg font-semibold text-orange-600 bg-orange-100 px-3 py-1 rounded-full">
                     {Math.floor(progress.remaining / 86400)} days
                   </span>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                <div className="w-full bg-slate-200 rounded-full h-5 overflow-hidden shadow-inner">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${100 - progress.percentage}%` }}
-                    transition={{ duration: 1, delay: 1.2 }}
-                    className="h-full bg-orange-500 rounded-full"
+                    transition={{ duration: 1.5, delay: 1.2, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-lg"
                   />
                 </div>
-                <p className="text-sm text-slate-600 mt-2">
+                <p className="text-sm text-slate-600 mt-3 font-medium">
                   {progress.remaining.toLocaleString()} seconds left
                 </p>
               </div>
             </div>
           </motion.div>
 
-          {/* Points Stats */}
+          {/* Professional Points Stats */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row justify-center items-center gap-4"
+            className="flex flex-col sm:flex-row justify-center items-center gap-6"
           >
             {pointStats.map((stat, index) => (
               <motion.div
@@ -228,19 +236,19 @@ function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 + index * 0.2 }}
-                className="flex items-center gap-3 bg-slate-100 p-3 px-5 rounded-full border border-slate-200"
+                className="flex items-center gap-4 bg-white p-6 px-8 rounded-2xl border border-slate-200 shadow-xl backdrop-blur-sm"
               >
-                <span className="text-slate-500">{stat.label}:</span>
-                <span className="font-semibold text-lg text-slate-800">
+                <span className="text-slate-600 font-medium">{stat.label}:</span>
+                <span className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   {stat.value}
                 </span>
               </motion.div>
             ))}
           </motion.div>
 
-          {/* Total Stats Grid */}
+          {/* Professional Total Stats Grid */}
           <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
+            className="grid grid-cols-2 md:grid-cols-4 gap-6"
             initial="hidden"
             animate="visible"
             variants={{
@@ -259,25 +267,28 @@ function App() {
                   hidden: { y: 20, opacity: 0 },
                   visible: { y: 0, opacity: 1 },
                 }}
-                className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm"
+                className="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl backdrop-blur-sm hover:shadow-2xl transition-all duration-300"
               >
-                <p className="text-sm text-slate-500">{stat.label}</p>
-                <p className="text-3xl font-semibold text-slate-900 mt-1">
+                <p className="text-sm text-slate-600 font-medium">{stat.label}</p>
+                <p className="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mt-2">
                   {stat.value.toLocaleString()}
                 </p>
               </motion.div>
             ))}
           </motion.div>
 
-          {/* Progress Style Countdown */}
+          {/* Professional Countdown */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 1.6 }}
-            className="bg-slate-800 text-white rounded-2xl shadow-lg p-8 md:p-12"
+            className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 text-white rounded-3xl shadow-2xl p-10 md:p-16 border border-slate-700"
           >
-            <h2 className="text-xl font-semibold text-slate-300 mb-6">Live Progress Counter</h2>
-            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-center">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-slate-200 mb-2">Live Progress Counter</h2>
+              <p className="text-slate-400">Real-time countdown to launch</p>
+            </div>
+            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12 text-center">
               {[
                 { label: 'Days', value: timeLeft.totalDays % 100 },
                 { label: 'Hours', value: timeLeft.hours },
@@ -289,28 +300,29 @@ function App() {
                     key={unit.label + unit.value}
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex flex-col items-center w-20"
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="flex flex-col items-center"
                   >
-                    <div className="text-4xl md:text-6xl font-mono font-bold text-white">
+                    <div className="text-5xl md:text-7xl font-mono font-bold bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent mb-2">
                       {formatNumber(unit.value)}
                     </div>
-                    <div className="text-sm text-slate-400 uppercase tracking-wider">{unit.label}</div>
+                    <div className="text-sm text-slate-300 uppercase tracking-widest font-semibold">{unit.label}</div>
                   </motion.div>
                   
                   {index < arr.length - 1 && (
-                    <div className="text-3xl md:text-5xl text-slate-600 font-light select-none">:</div>
+                    <div className="text-4xl md:text-6xl text-slate-500 font-light select-none">:</div>
                   )}
                 </React.Fragment>
               ))}
             </div>
           </motion.div>
 
-          {/* Calendar Component */}
+          {/* Professional Calendar Component */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.8 }}
+            className="w-full"
           >
             <Calendar startDate={startDate} targetDate={targetDate} />
           </motion.div>
