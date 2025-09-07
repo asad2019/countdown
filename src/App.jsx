@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
+import Calendar from './components/Calendar';
 
 function App() {
   const [timeLeft, setTimeLeft] = useState({
@@ -266,6 +267,15 @@ function App() {
                 </p>
               </motion.div>
             ))}
+          </motion.div>
+
+          {/* Calendar Component */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.8 }}
+          >
+            <Calendar startDate={startDate} targetDate={targetDate} />
           </motion.div>
 
           {/* Progress Style Countdown */}
