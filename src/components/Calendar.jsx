@@ -125,194 +125,151 @@ const Calendar = ({ startDate, targetDate }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-xl p-6 max-w-md mx-auto w-full backdrop-blur-sm">
-      {/* Professional Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h2 className="text-xl font-bold text-slate-900">Project Timeline</h2>
-          <p className="text-sm text-slate-500 mt-1">Track your progress visually</p>
-        </div>
-        <div className="flex items-center gap-3">
+    <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-4 max-w-sm mx-auto w-full">
+      {/* Compact Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-bold text-slate-900">Calendar</h2>
+        <div className="flex items-center gap-2">
           <motion.button
             onClick={() => navigateMonth('prev')}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-all duration-200 hover:shadow-md"
-            whileHover={{ scale: 1.05 }}
+            className="p-1 hover:bg-slate-100 rounded transition-colors"
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
-            <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </motion.button>
-          <motion.div 
+          <motion.span 
             key={`${currentMonth}-${currentYear}`}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="text-center min-w-[140px]"
+            className="text-sm font-semibold text-slate-700 min-w-[120px] text-center"
           >
-            <div className="text-lg font-bold text-slate-800">
-              {monthNames[currentMonth]}
-            </div>
-            <div className="text-sm text-slate-500">
-              {currentYear}
-            </div>
-          </motion.div>
+            {monthNames[currentMonth]} {currentYear}
+          </motion.span>
           <motion.button
             onClick={() => navigateMonth('next')}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-all duration-200 hover:shadow-md"
-            whileHover={{ scale: 1.05 }}
+            className="p-1 hover:bg-slate-100 rounded transition-colors"
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
-            <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </motion.button>
         </div>
       </div>
 
-      {/* Professional Day Headers */}
-      <div className="grid grid-cols-7 gap-2 mb-4">
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-          <div key={day} className="text-center text-sm font-semibold text-slate-600 py-2">
+      {/* Compact Day Headers */}
+      <div className="grid grid-cols-7 gap-1 mb-2">
+        {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
+          <div key={day} className="text-center text-xs font-semibold text-slate-500 py-1">
             {day}
           </div>
         ))}
       </div>
 
-      {/* Professional Calendar Grid */}
-      <div className="grid grid-cols-7 gap-2">
+      {/* Compact Calendar Grid - 4 rows */}
+      <div className="grid grid-cols-7 gap-1">
         {calendarDays.map((day, index) => {
           return (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.02 }}
+              transition={{ duration: 0.2, delay: index * 0.01 }}
               className={`
-                relative aspect-square flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-300 hover:scale-110 cursor-pointer group
-                ${!day.isCurrentMonth ? 'opacity-40 text-slate-400' : ''}
-                ${day.isStartDate ? 'bg-gradient-to-br from-red-500 to-red-600 border-red-500 text-white shadow-xl ring-2 ring-red-200' : ''}
-                ${day.isTargetDate ? 'bg-gradient-to-br from-green-500 to-green-600 border-green-500 text-white shadow-xl ring-2 ring-green-200' : ''}
-                ${day.isToday ? 'bg-gradient-to-br from-blue-500 to-blue-600 border-blue-500 text-white shadow-xl ring-2 ring-blue-200' : ''}
-                ${day.isPast && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200' : ''}
-                ${day.isFuture && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300' : ''}
-                ${day.isInRange && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-gradient-to-br from-amber-50 to-yellow-50 border-amber-200 text-amber-800 hover:bg-gradient-to-br hover:from-amber-100 hover:to-yellow-100' : ''}
+                relative aspect-square flex flex-col items-center justify-center rounded-md border transition-all duration-200 hover:scale-105 cursor-pointer
+                ${!day.isCurrentMonth ? 'opacity-30 text-slate-400' : ''}
+                ${day.isStartDate ? 'bg-red-500 border-red-600 text-white shadow-lg' : ''}
+                ${day.isTargetDate ? 'bg-green-500 border-green-600 text-white shadow-lg' : ''}
+                ${day.isToday ? 'bg-blue-500 border-blue-600 text-white shadow-lg' : ''}
+                ${day.isPast && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-slate-200 border-slate-300 text-slate-600' : ''}
+                ${day.isFuture && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-white border-slate-200 text-slate-400 hover:bg-slate-50' : ''}
+                ${day.isInRange && !day.isStartDate && !day.isTargetDate && !day.isToday ? 'bg-yellow-100 border-yellow-300 text-yellow-800' : ''}
               `}
             >
-              <span className="text-sm font-bold">
+              <span className="text-xs font-semibold">
                 {day.date.getDate()}
               </span>
               
-              {/* Professional Progress Indicator for Today */}
+              {/* Compact Progress Indicator for Today */}
               {day.isToday && (
-                <div className="absolute bottom-1 left-1 right-1">
-                  <div className="w-full bg-white/30 rounded-full h-1 overflow-hidden">
+                <div className="absolute bottom-0.5 left-0.5 right-0.5">
+                  <div className="w-full bg-white/30 rounded-full h-0.5 overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${dayProgress}%` }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                      className="h-full bg-white rounded-full shadow-sm"
+                      transition={{ duration: 0.5 }}
+                      className="h-full bg-white rounded-full"
                     />
                   </div>
                 </div>
               )}
               
-              {/* Professional Progress Indicator for Past Days */}
+              {/* Compact Progress Indicator for Past Days */}
               {day.isPast && !day.isStartDate && !day.isTargetDate && !day.isToday && (
-                <div className="absolute bottom-1 left-1 right-1">
-                  <div className="w-full bg-slate-300 rounded-full h-1">
-                    <div className="h-full bg-slate-500 rounded-full w-full shadow-sm" />
+                <div className="absolute bottom-0.5 left-0.5 right-0.5">
+                  <div className="w-full bg-slate-400 rounded-full h-0.5">
+                    <div className="h-full bg-slate-600 rounded-full w-full" />
                   </div>
                 </div>
               )}
               
-              {/* Professional Special Indicators */}
+              {/* Special Indicators */}
               {day.isStartDate && (
-                <div className="absolute top-1 right-1">
-                  <div className="w-2 h-2 bg-white rounded-full shadow-sm"></div>
+                <div className="absolute top-0.5 right-0.5">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                 </div>
               )}
               
               {day.isTargetDate && (
-                <div className="absolute top-1 right-1">
-                  <div className="w-2 h-2 bg-white rounded-full shadow-sm"></div>
+                <div className="absolute top-0.5 right-0.5">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                 </div>
-              )}
-              
-              {/* Current Date Pulse Animation */}
-              {day.isToday && (
-                <motion.div
-                  className="absolute inset-0 rounded-xl border-2 border-blue-400"
-                  animate={{ 
-                    scale: [1, 1.1, 1],
-                    opacity: [0.5, 0.8, 0.5]
-                  }}
-                  transition={{ 
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
               )}
             </motion.div>
           );
         })}
       </div>
 
-      {/* Professional Legend */}
-      <div className="mt-6 grid grid-cols-2 gap-3">
-        <div className="flex items-center gap-2 p-2 bg-slate-50 rounded-lg">
-          <div className="w-4 h-4 bg-gradient-to-br from-red-500 to-red-600 rounded-lg shadow-sm"></div>
-          <span className="text-sm font-medium text-slate-700">Start Point</span>
+      {/* Compact Legend */}
+      <div className="mt-4 flex flex-wrap gap-3 text-xs">
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 bg-red-500 rounded"></div>
+          <span>Start</span>
         </div>
-        <div className="flex items-center gap-2 p-2 bg-slate-50 rounded-lg">
-          <div className="w-4 h-4 bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-sm"></div>
-          <span className="text-sm font-medium text-slate-700">Target Date</span>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 bg-green-500 rounded"></div>
+          <span>Target</span>
         </div>
-        <div className="flex items-center gap-2 p-2 bg-slate-50 rounded-lg">
-          <div className="w-4 h-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-sm"></div>
-          <span className="text-sm font-medium text-slate-700">Current Day</span>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 bg-blue-500 rounded"></div>
+          <span>Today</span>
         </div>
-        <div className="flex items-center gap-2 p-2 bg-slate-50 rounded-lg">
-          <div className="w-4 h-4 bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 rounded-lg shadow-sm"></div>
-          <span className="text-sm font-medium text-slate-700">Project Range</span>
+        <div className="flex items-center gap-1">
+          <div className="w-3 h-3 bg-yellow-100 border border-yellow-300 rounded"></div>
+          <span>Range</span>
         </div>
       </div>
 
-      {/* Professional Current Time Display */}
-      <div className="mt-6 p-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl border border-slate-200">
+      {/* Current Time Display */}
+      <div className="mt-4 p-3 bg-slate-50 rounded-lg">
         <div className="flex justify-between items-center">
           <div>
-            <div className="text-lg font-bold text-slate-900">
+            <div className="text-sm font-semibold text-slate-900">
               {formatTime(currentTime)}
             </div>
-            <div className="text-sm text-slate-600">
+            <div className="text-xs text-slate-500">
               {dayProgress.toFixed(1)}% day progress
             </div>
           </div>
           <div className="text-right">
-            <div className="text-sm font-semibold text-slate-800">
-              {currentTime.toLocaleDateString('en-US', { 
-                weekday: 'short',
-                month: 'short', 
-                day: 'numeric' 
-              })}
+            <div className="text-xs text-slate-600">
+              {currentTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
             </div>
-            <div className="text-xs text-slate-500">
-              {currentTime.getFullYear()}
-            </div>
-          </div>
-        </div>
-        
-        {/* Day Progress Bar */}
-        <div className="mt-3">
-          <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${dayProgress}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full shadow-sm"
-            />
           </div>
         </div>
       </div>
